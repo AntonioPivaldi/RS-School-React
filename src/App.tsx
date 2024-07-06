@@ -1,29 +1,29 @@
-import React, { ReactNode } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import React, { ReactNode } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 interface Props {}
 
 interface State {
-  count: number;
+  count: number
 }
 
 class App extends React.Component<Props, State> {
   constructor(props: React.PropsWithChildren) {
-    super(props);
+    super(props)
     this.state = {
       count: 0,
-    };
+    }
   }
 
-  state: State;
+  state: State
 
   add = () => {
     this.setState(({ count }) => ({
       count: count + 1,
-    }));
-  };
+    }))
+  }
 
   render(): ReactNode {
     return (
@@ -43,10 +43,12 @@ class App extends React.Component<Props, State> {
             Edit <code>src/App.tsx</code> and save to test HMR
           </p>
         </div>
-        <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+        <p className="read-the-docs">
+          Click on the Vite and React logos to learn more
+        </p>
       </>
-    );
+    )
   }
 }
 
-export default App;
+export default App
