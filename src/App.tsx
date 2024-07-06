@@ -1,30 +1,10 @@
-import React, { PropsWithChildren, ReactNode } from 'react'
+import React from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
 import ErrorButton from './components/ErrorButton'
 
-interface State {
-  count: number
-}
-
-class App extends React.Component<object, State> {
-  constructor(props: PropsWithChildren) {
-    super(props)
-    this.state = {
-      count: 0,
-    }
-  }
-
-  state: State
-
-  add = () => {
-    this.setState(({ count }) => ({
-      count: count + 1,
-    }))
-  }
-
-  render(): ReactNode {
+class App extends React.Component {
+  render() {
     return (
       <>
         <div>
