@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from 'react'
+import Button from './ui/Button'
 
 interface State {
   isError: boolean
@@ -19,9 +20,9 @@ export default class ErrorButton extends React.Component<object, State> {
   render(): React.ReactNode {
     return (
       <div className="card">
-        <button onClick={() => this.setState({ isError: true })}>
+        <Button onClick={() => this.setState({ isError: true })}>
           Throw error
-        </button>
+        </Button>
         {(() => {
           if (this.state.isError) {
             this.throwError()
