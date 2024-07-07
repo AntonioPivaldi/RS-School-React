@@ -11,12 +11,13 @@ class ErrorBoundary extends React.Component<PropsWithChildren, BoundaryState> {
   }
 
   static getDerivedStateFromError(error: Error) {
+    console.log(error.message)
     return { errorMessage: error.message }
   }
 
   render() {
     if (this.state.errorMessage) {
-      return <p>{this.state.errorMessage}</p>
+      return <p className="p-6">{this.state.errorMessage}</p>
     }
 
     return this.props.children
