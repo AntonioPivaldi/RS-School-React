@@ -21,13 +21,15 @@ export default class Search extends React.Component<SearchProps, SearchState> {
   handleInputChange = (e: BaseSyntheticEvent) => {
     const value = e.target.value
     this.setState({ searchString: value })
-    localStorage.setItem(SEARCH_KEY, value)
   }
 
-  handleSearchClick = () => {
-    if (this.state.searchString) {
-      this.props.search(this.state.searchString)
-    }
+  performSearch = () => {
+    localStorage.setItem(SEARCH_KEY, this.state.searchString)
+    this.props.search(this.state.searchString)
+  }
+
+  componentDidMount = () => {
+    this.performSearch()
   }
 
   render() {
@@ -43,11 +45,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
           />
         </div>
         <div>
-          <Button
-            onClick={this.handleSearchClick}
-            disabled={!this.state.searchString}
-            secondary
-          >
+          <Button onClick={this.performSearch} secondary>
             Search
           </Button>
         </div>
