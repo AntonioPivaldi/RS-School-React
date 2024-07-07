@@ -3,7 +3,7 @@ import ErrorButton from '../components/ErrorButton'
 import Search from '../components/Search'
 import getPeople from '../api/getPeople'
 import { PeopleResponse } from '../utils/types/api'
-import PersonCard from '../components/PersonCard'
+import People from '../components/People'
 
 interface MainState {
   peopleRes: PeopleResponse | null
@@ -18,6 +18,7 @@ export default class MainPage extends React.Component<object, MainState> {
   }
 
   search = async (searchStr: string) => {
+    this.setState({ peopleRes: null })
     const res = await getPeople(searchStr)
     this.setState({ peopleRes: res })
   }
@@ -25,19 +26,15 @@ export default class MainPage extends React.Component<object, MainState> {
   render() {
     return (
       <div className="flex flex-col gap-6 px-6 py-4">
-        <section>
+        <section className="flex flex-col gap-6">
           <Search search={this.search} />
-        </section>
-        <main>
-          <div className="flex flex-col gap-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {this.state.peopleRes?.results.map((person) => (
-              <PersonCard person={person} key={person.name} />
-            ))}
+          <div>
+            <ErrorButton />
           </div>
+        </section>
+        <main className="flex justify-center">
+          <People peopleRes={this.state.peopleRes} />
         </main>
-        <div>
-          <ErrorButton />
-        </div>
       </div>
     )
   }
