@@ -1,28 +1,27 @@
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
-import { SEARCH_KEY } from '../utils/constants'
 import Button from './ui/Button'
+import useSearchString from '../utils/hooks/useSearchString'
 
 interface SearchProps {
   search: (value: string) => void
 }
 
 export default function Search({ search }: SearchProps) {
-  const initialSearchString = localStorage.getItem(SEARCH_KEY) || ''
-  const [searchString, setSearchString] = useState(initialSearchString)
+  const [searchString, setSearchString] = useSearchString()
+  const [inputValue, setInputValue] = useState('')
 
   function handleInputChange(e: BaseSyntheticEvent) {
     const value = e.target.value
-    setSearchString(value)
+    setInputValue(value)
   }
 
   function handleSearchClick() {
-    localStorage.setItem(SEARCH_KEY, searchString)
-    search(searchString)
+    setSearchString(inputValue)
   }
 
   useEffect(() => {
-    search(initialSearchString)
-  }, [search, initialSearchString])
+    search(searchString)
+  }, [search, searchString])
 
   return (
     <div className="flex items-center gap-6">
@@ -31,7 +30,7 @@ export default function Search({ search }: SearchProps) {
           className="rounded-lg border border-gray-200 px-2 py-[6px] outline-none"
           placeholder="Search..."
           type="text"
-          value={searchString}
+          value={inputValue}
           onChange={handleInputChange}
         />
       </div>
