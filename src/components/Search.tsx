@@ -1,5 +1,5 @@
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
-import { SEARCH_KEY } from '../utils/constants'
+import { SEARCH_KEY } from '@/utils/constants'
 import Button from './ui/Button'
 
 interface SearchProps {
@@ -25,10 +25,10 @@ export default function Search({ search }: SearchProps) {
   }, [search, initialSearchString])
 
   return (
-    <div className="flex gap-6 items-center">
+    <div className="flex items-center gap-6">
       <div>
         <input
-          className="py-[6px] px-2 border border-gray-200 rounded-lg outline-none"
+          className="rounded-lg border border-gray-200 px-2 py-[6px] outline-none"
           placeholder="Search..."
           type="text"
           value={searchString}

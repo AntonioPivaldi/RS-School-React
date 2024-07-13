@@ -1,5 +1,5 @@
-import { mockPeople } from '../utils/mocks/mockApiResponses'
-import { API_HOST } from '../utils/env/env'
+import { API_HOST } from '@/utils/env/env'
+import { mockPeople } from '@/utils/mocks/mockApiResponses'
 
 export default async function getPeople(search = '') {
   const params = new URLSearchParams({

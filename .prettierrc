@@ -2,5 +2,24 @@
   "trailingComma": "all",
   "tabWidth": 2,
   "semi": false,
-  "singleQuote": true
+  "singleQuote": true,
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "@trivago/prettier-plugin-sort-imports"
+  ],
+  "importOrder": [
+    "^(react|next)(/.*)?$",
+    "^(react-.*|next-.*|clsx)",
+    "^@/components/(.*)$",
+    "^@/api/.*$",
+    "^@/utils/hooks.*$",
+    "^@/utils/constants.*$",
+    "^@/utils/types.*$",
+    "^@/assets/styles.*$",
+    "^@/assets/(.*)$",
+    "^[./]",
+    "^.*\\.s?css$",
+    "^.*\\.svg$",
+    ".*"
+  ]
 }
