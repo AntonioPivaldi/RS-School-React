@@ -21,5 +21,6 @@ export interface PeopleResponse {
   count: number
   next: string | null
   previous: string | null
+  isMock?: true
   results: Person[]
 }

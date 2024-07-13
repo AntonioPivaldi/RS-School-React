@@ -32,7 +32,12 @@ export default class MainPage extends React.Component<object, MainState> {
             <ErrorButton />
           </div>
         </section>
-        <main className="flex justify-center">
+        <main className="flex flex-col items-center justify-center">
+          {this.state.peopleRes?.isMock && (
+            <div className="text-red-500">
+              Request was unsuccessfull. Mock data is shown.
+            </div>
+          )}
           <People peopleRes={this.state.peopleRes} />
         </main>
       </div>

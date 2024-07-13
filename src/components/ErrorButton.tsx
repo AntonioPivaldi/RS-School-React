@@ -18,18 +18,15 @@ export default class ErrorButton extends React.Component<object, State> {
   }
 
   render(): React.ReactNode {
+    if (this.state.isError) {
+      this.throwError()
+    }
+
     return (
       <div className="card">
         <Button onClick={() => this.setState({ isError: true })}>
           Throw error
         </Button>
-        {(() => {
-          if (this.state.isError) {
-            this.throwError()
-          }
-
-          return <></>
-        })()}
       </div>
     )
   }
