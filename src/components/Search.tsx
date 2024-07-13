@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, PropsWithChildren } from 'react'
+import { BaseSyntheticEvent, useEffect, useState } from 'react'
 import { SEARCH_KEY } from '../utils/constants'
 import Button from './ui/Button'
 
@@ -6,50 +6,40 @@ interface SearchProps {
   search: (value: string) => void
 }
 
-interface SearchState {
-  searchString: string
-}
+export default function Search({ search }: SearchProps) {
+  const initialSearchString = localStorage.getItem(SEARCH_KEY) || ''
+  const [searchString, setSearchString] = useState(initialSearchString)
 
-export default class Search extends React.Component<SearchProps, SearchState> {
-  constructor(props: PropsWithChildren<SearchProps>) {
-    super(props)
-    this.state = {
-      searchString: localStorage.getItem(SEARCH_KEY) || '',
-    }
-  }
-
-  handleInputChange = (e: BaseSyntheticEvent) => {
+  function handleInputChange(e: BaseSyntheticEvent) {
     const value = e.target.value
-    this.setState({ searchString: value })
+    setSearchString(value)
   }
 
-  performSearch = () => {
-    localStorage.setItem(SEARCH_KEY, this.state.searchString)
-    this.props.search(this.state.searchString)
+  function handleSearchClick() {
+    localStorage.setItem(SEARCH_KEY, searchString)
+    search(searchString)
   }
 
-  componentDidMount = () => {
-    this.performSearch()
-  }
+  useEffect(() => {
+    search(initialSearchString)
+  }, [search, initialSearchString])
 
-  render() {
-    return (
-      <div className="flex gap-6 items-center">
-        <div>
-          <input
-            className="py-[6px] px-2 border border-gray-200 rounded-lg outline-none"
-            placeholder="Search..."
-            type="text"
-            value={this.state.searchString}
-            onChange={this.handleInputChange}
-          />
-        </div>
-        <div>
-          <Button onClick={this.performSearch} secondary>
-            Search
-          </Button>
-        </div>
+  return (
+    <div className="flex gap-6 items-center">
+      <div>
+        <input
+          className="py-[6px] px-2 border border-gray-200 rounded-lg outline-none"
+          placeholder="Search..."
+          type="text"
+          value={searchString}
+          onChange={handleInputChange}
+        />
       </div>
-    )
-  }
+      <div>
+        <Button onClick={handleSearchClick} secondary>
+          Search
+        </Button>
+      </div>
+    </div>
+  )
 }

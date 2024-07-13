@@ -1,9 +1,9 @@
 import React, { PropsWithChildren } from 'react'
 import ErrorButton from '../components/ErrorButton'
 import Search from '../components/Search'
+import People from '../components/people/People'
 import getPeople from '../api/getPeople'
 import { PeopleResponse } from '../utils/types/api'
-import People from '../components/People'
 
 interface MainState {
   peopleRes: PeopleResponse | null
