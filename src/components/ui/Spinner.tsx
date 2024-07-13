@@ -1,9 +1,9 @@
-import spinner from '@/assets/icons/spinner.png'
+import spinner from '../../assets/icons/spinner.png'
 
 export default function Spinner() {
   return (
-    <div className="relative h-10 w-10">
-      <div className="absolute w-10 animate-spin">
+    <div className="relative w-10 h-10">
+      <div className="w-10 absolute animate-spin">
         <img src={spinner} />
       </div>
     </div>

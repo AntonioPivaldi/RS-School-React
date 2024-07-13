@@ -18,7 +18,7 @@ class ErrorBoundary extends React.Component<PropsWithChildren, BoundaryState> {
   render() {
     if (this.state.errorMessage) {
       return (
-        <div className="flex h-dvh flex-col gap-6 bg-[#0074D0] pl-40 text-white">
+        <div className="flex flex-col pl-40 gap-6 h-dvh bg-[#0074D0] text-white">
           <div className="mt-28">
             <p className="text-[10rem]">{':('}</p>
             <div className="text-[2rem]">

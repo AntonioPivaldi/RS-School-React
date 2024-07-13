@@ -1,5 +1,5 @@
-import { PropsWithChildren } from 'react'
 import clsx from 'clsx'
+import { PropsWithChildren } from 'react'
 
 interface ButtonProps {
   onClick: () => void
@@ -16,10 +16,10 @@ export default function Button({
   return (
     <button
       className={clsx(
-        'rounded-lg border-[2px] px-2 py-1 outline-none duration-100 disabled:opacity-50',
+        'py-1 px-2 border-[2px] rounded-lg duration-100 outline-none disabled:opacity-50',
         secondary
-          ? 'border-yellow-400 bg-white'
-          : 'border-gray-200 bg-gray-200',
+          ? 'bg-white border-yellow-400'
+          : 'bg-gray-200 border-gray-200',
         !disabled && 'active:scale-95',
       )}
       disabled={disabled}

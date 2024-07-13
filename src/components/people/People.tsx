@@ -1,6 +1,6 @@
-import { PeopleResponse } from '@/utils/types/api'
-import Spinner from '../ui/Spinner'
+import { PeopleResponse } from '../../utils/types/api'
 import PersonCard from './PersonCard'
+import Spinner from '../ui/Spinner'
 
 interface PeopleProps {
   peopleRes: PeopleResponse | null
@@ -11,7 +11,7 @@ export default function People({ peopleRes }: PeopleProps) {
 
   if (!people) {
     return (
-      <div className="flex h-20 items-center">
+      <div className="flex items-center h-20">
         <Spinner />
       </div>
     )
@@ -23,7 +23,7 @@ export default function People({ peopleRes }: PeopleProps) {
 
   return (
     <>
-      <div className="flex w-full flex-col gap-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="flex flex-col gap-4 w-full sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {people.map((person) => (
           <PersonCard person={person} key={person.name} />
         ))}
