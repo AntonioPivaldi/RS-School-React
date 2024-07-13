@@ -1,41 +1,18 @@
-import React, { PropsWithChildren } from 'react'
+import { useRouteError } from 'react-router-dom'
 
-interface BoundaryState {
-  errorMessage: string
-}
-
-class ErrorBoundary extends React.Component<PropsWithChildren, BoundaryState> {
-  constructor(props: PropsWithChildren) {
-    super(props)
-    this.state = { errorMessage: '' }
-  }
-
-  static getDerivedStateFromError(error: Error) {
-    console.log(error.message)
-    return { errorMessage: error.message }
-  }
-
-  render() {
-    if (this.state.errorMessage) {
-      return (
-        <div className="flex h-dvh flex-col gap-6 bg-[#0074D0] pl-40 text-white">
-          <div className="mt-28">
-            <p className="text-[10rem]">{':('}</p>
-            <div className="text-[2rem]">
-              <p>Error message: "{this.state.errorMessage}"</p>
-              <p>
-                {
-                  'Lorem ipsum, yada yada. Please, be more careful next time! :)'
-                }
-              </p>
-            </div>
-          </div>
+export default function ErrorBoundary() {
+  const error = useRouteError() as Error
+  return (
+    <div className="flex h-dvh flex-col gap-6 bg-[#0074D0] pl-40 text-white">
+      <div className="mt-28">
+        <p className="text-[10rem]">{':('}</p>
+        <div className="text-[2rem]">
+          <p>Error message: "{error.message || 'Something went wrong...'}"</p>
+          <p>
+            {'Lorem ipsum, yada yada. Please, be more careful next time! :)'}
+          </p>
         </div>
-      )
-    }
-
-    return this.props.children
-  }
+      </div>
+    </div>
+  )
 }
-
-export default ErrorBoundary
