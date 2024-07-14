@@ -1,46 +1,68 @@
-import React, { PropsWithChildren } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ErrorButton from '../components/ErrorButton'
 import Search from '../components/Search'
 import People from '../components/people/People'
 import getPeople from '../api/getPeople'
 import { PeopleResponse } from '../utils/types/api'
+import { useSearchParams } from 'react-router-dom'
+import Pagination from '../components/Pagination'
+import useSearchString from '../utils/hooks/useSearchString'
+import usePageNumber from '../utils/hooks/usePageNumber'
 
-interface MainState {
-  peopleRes: PeopleResponse | null
-}
+export default function MainPage() {
+  const [, setSearchParams] = useSearchParams()
+  const [peopleRes, setPeopleRes] = useState<PeopleResponse | null>(null)
+  const [searchString, setSearchString] = useSearchString()
+  const [pageNumber, setPageNumber] = usePageNumber()
+  const isInitialLoad = useRef(true)
 
-export default class MainPage extends React.Component<object, MainState> {
-  constructor(props: PropsWithChildren) {
-    super(props)
-    this.state = {
-      peopleRes: null,
+  async function search() {
+    const params = new URLSearchParams({
+      search: searchString,
+      page: `${pageNumber}`,
+    })
+
+    setPeopleRes(null)
+    setSearchParams(params)
+    const res = await getPeople(params.toString())
+    setPeopleRes(res)
+  }
+
+  useEffect(() => {
+    if (pageNumber !== 1) {
+      setPageNumber(1)
+    } else if (!isInitialLoad.current) {
+      search()
+    } else {
+      isInitialLoad.current = false
     }
-  }
+  }, [searchString])
 
-  search = async (searchStr: string) => {
-    this.setState({ peopleRes: null })
-    const res = await getPeople(searchStr)
-    this.setState({ peopleRes: res })
-  }
+  useEffect(() => {
+    search()
+  }, [pageNumber])
 
-  render() {
-    return (
-      <div className="flex flex-col gap-6 px-6 py-4">
-        <section className="flex flex-col gap-6">
-          <Search search={this.search} />
-          <div>
-            <ErrorButton />
+  return (
+    <div className="flex flex-col gap-6 px-6 py-4">
+      <section className="flex flex-col gap-6">
+        <Search searchString={searchString} setSearchString={setSearchString} />
+        <div>
+          <ErrorButton />
+        </div>
+      </section>
+      <main className="flex flex-col items-center justify-center">
+        {peopleRes?.isMock && (
+          <div className="text-red-500">
+            Request was unsuccessfull. Mock data is shown.
           </div>
-        </section>
-        <main className="flex flex-col items-center justify-center">
-          {this.state.peopleRes?.isMock && (
-            <div className="text-red-500">
-              Request was unsuccessfull. Mock data is shown.
-            </div>
-          )}
-          <People peopleRes={this.state.peopleRes} />
-        </main>
-      </div>
-    )
-  }
+        )}
+        <People peopleRes={peopleRes} />
+        <Pagination
+          pageNumber={pageNumber}
+          peopleRes={peopleRes}
+          setPageNumber={setPageNumber}
+        />
+      </main>
+    </div>
+  )
 }

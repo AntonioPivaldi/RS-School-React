@@ -1,14 +1,13 @@
-import { BaseSyntheticEvent, useEffect, useState } from 'react'
+import { BaseSyntheticEvent, useState } from 'react'
 import Button from './ui/Button'
-import useSearchString from '../utils/hooks/useSearchString'
 
 interface SearchProps {
-  search: (value: string) => void
+  searchString: string
+  setSearchString: (str: string) => void
 }
 
-export default function Search({ search }: SearchProps) {
-  const [searchString, setSearchString] = useSearchString()
-  const [inputValue, setInputValue] = useState('')
+export default function Search({ searchString, setSearchString }: SearchProps) {
+  const [inputValue, setInputValue] = useState(searchString)
 
   function handleInputChange(e: BaseSyntheticEvent) {
     const value = e.target.value
@@ -18,10 +17,6 @@ export default function Search({ search }: SearchProps) {
   function handleSearchClick() {
     setSearchString(inputValue)
   }
-
-  useEffect(() => {
-    search(searchString)
-  }, [search, searchString])
 
   return (
     <div className="flex items-center gap-6">
