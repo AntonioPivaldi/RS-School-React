@@ -4,10 +4,11 @@ import Search from '../components/Search'
 import People from '../components/people/People'
 import getPeople from '../api/getPeople'
 import { PeopleResponse } from '../utils/types/api'
-import { useSearchParams } from 'react-router-dom'
+import { Outlet, useSearchParams } from 'react-router-dom'
 import Pagination from '../components/Pagination'
 import useSearchString from '../utils/hooks/useSearchString'
 import usePageNumber from '../utils/hooks/usePageNumber'
+import RequestFail from '../components/RequestFail'
 
 export default function MainPage() {
   const [, setSearchParams] = useSearchParams()
@@ -51,11 +52,7 @@ export default function MainPage() {
         </div>
       </section>
       <main className="flex flex-col items-center justify-center">
-        {peopleRes?.isMock && (
-          <div className="text-red-500">
-            Request was unsuccessfull. Mock data is shown.
-          </div>
-        )}
+        {peopleRes?.isMock && <RequestFail />}
         <People peopleRes={peopleRes} />
         <Pagination
           pageNumber={pageNumber}
@@ -63,6 +60,7 @@ export default function MainPage() {
           setPageNumber={setPageNumber}
         />
       </main>
+      <Outlet />
     </div>
   )
 }
