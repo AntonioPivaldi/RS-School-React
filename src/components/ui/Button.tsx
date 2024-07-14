@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 
 interface ButtonProps {
   onClick: () => void
@@ -7,28 +7,25 @@ interface ButtonProps {
   disabled?: boolean
 }
 
-export default class Button extends React.Component<
-  PropsWithChildren<ButtonProps>
-> {
-  constructor(props: PropsWithChildren<ButtonProps>) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <button
-        className={clsx(
-          'py-1 px-2 border-[2px] rounded-lg duration-100 outline-none disabled:opacity-50',
-          this.props.secondary
-            ? 'bg-white border-yellow-400'
-            : 'bg-gray-200 border-gray-200',
-          !this.props.disabled && 'active:scale-95',
-        )}
-        disabled={this.props.disabled}
-        onClick={this.props.onClick}
-      >
-        {this.props.children}
-      </button>
-    )
-  }
+export default function Button({
+  onClick,
+  secondary,
+  disabled,
+  children,
+}: PropsWithChildren<ButtonProps>) {
+  return (
+    <button
+      className={clsx(
+        'rounded-lg border-[2px] px-2 py-1 outline-none duration-100 disabled:opacity-50',
+        secondary
+          ? 'border-yellow-400 bg-white'
+          : 'border-gray-200 bg-gray-200',
+        !disabled && 'active:scale-95',
+      )}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  )
 }
