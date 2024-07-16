@@ -4,7 +4,7 @@ import { BaseSyntheticEvent, useEffect, useState } from 'react'
 import getPerson from '../../api/getPerson'
 import { PeopleResponse, Person } from '../../utils/types/api'
 import Spinner from '../ui/Spinner'
-import RequestFail from '../RequestFail'
+import FailedRequestMessage from '../FailedRequestMessage'
 
 export default function Details() {
   const navigate = useNavigate()
@@ -50,7 +50,7 @@ export default function Details() {
           </div>
         ) : (
           <div>
-            {peopleRes?.isMock && <RequestFail />}
+            {peopleRes?.isMock && <FailedRequestMessage />}
             <div className="mt-4 flex flex-col gap-2">
               <p>Name: {person?.name || 'N/A'}</p>
               <p>Gender: {person?.gender || 'N/A'}</p>

@@ -8,7 +8,7 @@ import { Outlet, useSearchParams } from 'react-router-dom'
 import Pagination from '../components/Pagination'
 import useSearchString from '../utils/hooks/useSearchString'
 import usePageNumber from '../utils/hooks/usePageNumber'
-import RequestFail from '../components/RequestFail'
+import FailedRequestMessage from '../components/FailedRequestMessage'
 
 export default function MainPage() {
   const [, setSearchParams] = useSearchParams()
@@ -52,7 +52,7 @@ export default function MainPage() {
         </div>
       </section>
       <main className="flex flex-col items-center justify-center">
-        {peopleRes?.isMock && <RequestFail />}
+        {peopleRes?.isMock && <FailedRequestMessage />}
         <People peopleRes={peopleRes} />
         <Pagination
           pageNumber={pageNumber}
