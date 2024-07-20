@@ -6,7 +6,7 @@ export default function ThemeSwitch() {
 
   return (
     <Button onClick={toggleTheme} secondary>
-      You are on the <span>{theme}</span> side!
+      You are on the <span data-testid="theme-switch">{theme}</span> side!
     </Button>
   )
 }
