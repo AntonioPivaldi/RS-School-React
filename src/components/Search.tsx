@@ -22,7 +22,7 @@ export default function Search({ searchString, setSearchString }: SearchProps) {
     <div className="flex items-center gap-6">
       <div>
         <input
-          className="rounded-lg border border-gray-200 px-2 py-[6px] outline-none"
+          className="rounded-lg border border-gray-200 bg-transparent px-2 py-[6px] outline-none"
           placeholder="Search..."
           type="text"
           value={inputValue}

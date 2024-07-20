@@ -12,6 +12,7 @@ import MainPage from './pages/Main.tsx'
 import ErrorBoundary from './ErrorBoundary.tsx'
 import PageNotFound from './pages/404.tsx'
 import DetailsOutlet from './components/people/DetailsOutlet.tsx'
+import ThemeProvider from './context/ThemeProvider.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>,
 )

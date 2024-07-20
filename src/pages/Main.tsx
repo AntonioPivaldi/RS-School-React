@@ -9,6 +9,7 @@ import Pagination from '../components/Pagination'
 import useSearchString from '../utils/hooks/useSearchString'
 import usePageNumber from '../utils/hooks/usePageNumber'
 import FailedRequestMessage from '../components/FailedRequestMessage'
+import ThemeSwitch from '../components/ThemeSwitch'
 
 export default function MainPage() {
   const [, setSearchParams] = useSearchParams()
@@ -47,7 +48,8 @@ export default function MainPage() {
     <div className="flex flex-col gap-6 px-6 py-4">
       <section className="flex flex-col gap-6">
         <Search searchString={searchString} setSearchString={setSearchString} />
-        <div>
+        <div className="flex gap-6">
+          <ThemeSwitch />
           <ErrorButton />
         </div>
       </section>
