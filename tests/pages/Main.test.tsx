@@ -4,12 +4,16 @@ import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import MainPage from '../../src/pages/Main'
 import ThemeProvider from '../../src/context/ThemeProvider'
+import { Provider } from 'react-redux'
+import { store } from '../../src/store'
 
 test('Main page render test', async () => {
   const { unmount } = render(
-    <ThemeProvider>
-      <MainPage />
-    </ThemeProvider>,
+    <Provider store={store}>
+      <ThemeProvider>
+        <MainPage />
+      </ThemeProvider>
+    </Provider>,
     { wrapper: BrowserRouter },
   )
 

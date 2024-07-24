@@ -1,21 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { Outlet, useSearchParams } from 'react-router-dom'
+import { RootState } from '../store'
 import ErrorButton from '../components/ErrorButton'
 import Search from '../components/Search'
 import People from '../components/people/People'
-import getPeople from '../api/getPeople'
-import { PeopleResponse } from '../utils/types/api'
-import { Outlet, useSearchParams } from 'react-router-dom'
 import Pagination from '../components/Pagination'
-import useSearchString from '../utils/hooks/useSearchString'
-import usePageNumber from '../utils/hooks/usePageNumber'
 import FailedRequestMessage from '../components/FailedRequestMessage'
 import ThemeSwitch from '../components/ThemeSwitch'
+import getPeople from '../api/getPeople'
+import { PeopleResponse } from '../utils/types/api'
+import useSearchString from '../utils/hooks/useSearchString'
 
 export default function MainPage() {
   const [, setSearchParams] = useSearchParams()
   const [peopleRes, setPeopleRes] = useState<PeopleResponse | null>(null)
   const [searchString, setSearchString] = useSearchString()
-  const [pageNumber, setPageNumber] = usePageNumber()
+  const pageNumber = useSelector((state: RootState) => state.page.value)
   const isInitialLoad = useRef(true)
 
   async function search() {
@@ -31,9 +32,7 @@ export default function MainPage() {
   }
 
   useEffect(() => {
-    if (pageNumber !== 1) {
-      setPageNumber(1)
-    } else if (!isInitialLoad.current) {
+    if (!isInitialLoad.current) {
       search()
     } else {
       isInitialLoad.current = false
@@ -56,11 +55,7 @@ export default function MainPage() {
       <main className="flex flex-col items-center justify-center">
         {peopleRes?.isMock && <FailedRequestMessage />}
         <People peopleRes={peopleRes} />
-        <Pagination
-          pageNumber={pageNumber}
-          peopleRes={peopleRes}
-          setPageNumber={setPageNumber}
-        />
+        <Pagination pageNumber={pageNumber} peopleRes={peopleRes} />
       </main>
       <Outlet />
     </div>
