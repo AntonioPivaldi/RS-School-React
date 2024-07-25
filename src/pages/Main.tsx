@@ -8,6 +8,7 @@ import People from '../components/people/People'
 import Pagination from '../components/Pagination'
 import FailedRequestMessage from '../components/FailedRequestMessage'
 import ThemeSwitch from '../components/ThemeSwitch'
+import ItemsControls from '../components/ItemsControls'
 import getPeople from '../api/getPeople'
 import { PeopleResponse } from '../utils/types/api'
 import useSearchString from '../utils/hooks/useSearchString'
@@ -45,11 +46,19 @@ export default function MainPage() {
 
   return (
     <div className="flex flex-col gap-6 px-6 py-4">
-      <section className="flex flex-col gap-6">
-        <Search searchString={searchString} setSearchString={setSearchString} />
-        <div className="flex gap-6">
-          <ThemeSwitch />
-          <ErrorButton />
+      <section className="flex justify-between">
+        <div className="flex flex-col gap-6">
+          <Search
+            searchString={searchString}
+            setSearchString={setSearchString}
+          />
+          <div className="flex gap-6">
+            <ThemeSwitch />
+            <ErrorButton />
+          </div>
+        </div>
+        <div>
+          <ItemsControls />
         </div>
       </section>
       <main className="flex flex-col items-center justify-center">

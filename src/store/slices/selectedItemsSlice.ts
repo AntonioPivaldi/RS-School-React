@@ -20,8 +20,13 @@ export const selectedItemsSlice = createSlice({
     removePerson: (state, action: PayloadAction<Person>) => {
       delete state.value[action.payload.name]
     },
+
+    removeAllPersons: (state) => {
+      state.value = {}
+    },
   },
 })
 
-export const { addPerson, removePerson } = selectedItemsSlice.actions
+export const { addPerson, removePerson, removeAllPersons } =
+  selectedItemsSlice.actions
 export default selectedItemsSlice.reducer
