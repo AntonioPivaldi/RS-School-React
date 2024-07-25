@@ -35,18 +35,19 @@ export default function PersonCard({ person }: CardProps) {
         <NavLink className="underline" to={`details/${personName}`}>
           Details
         </NavLink>
-        <div className="flex cursor-pointer items-center gap-2">
-          <label className="cursor-pointer" htmlFor={person.url}>
-            Select{isSelected && 'ed'}:
-          </label>
+        <label
+          className="flex cursor-pointer items-center gap-2"
+          htmlFor={person.url}
+        >
+          Select{isSelected && 'ed'}:
           <input
-            className="h-4 w-4 cursor-pointer"
+            className="h-4 w-4"
             checked={isSelected}
             id={person.url}
             type="checkbox"
             onChange={handleInputChange}
           />
-        </div>
+        </label>
       </div>
     </div>
   )
