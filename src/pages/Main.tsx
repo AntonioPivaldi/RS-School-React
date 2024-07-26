@@ -51,7 +51,7 @@ export default function MainPage() {
 
   return (
     <div className="flex flex-col gap-6 px-6 py-4">
-      <section className="flex justify-between">
+      <section className="flex flex-col justify-between gap-6 lg:flex-row">
         <div className="flex flex-col gap-6">
           <Search
             searchString={searchString}
