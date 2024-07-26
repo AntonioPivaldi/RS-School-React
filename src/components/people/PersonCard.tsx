@@ -41,7 +41,7 @@ export default function PersonCard({ person }: CardProps) {
         >
           Select{isSelected && 'ed'}:
           <input
-            className="h-4 w-4"
+            className="h-4 w-4 cursor-pointer"
             checked={isSelected}
             id={person.url}
             type="checkbox"

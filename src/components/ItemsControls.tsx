@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { saveAs } from 'file-saver'
 import Button from './ui/Button'
 import { RootState } from '../store'
 import { removeAllPersons } from '../store/slices/selectedItemsSlice'
@@ -15,7 +16,23 @@ export default function ItemsControls() {
   }
 
   function downloadItems() {
-    console.log(selectedItems)
+    const fileName = `${itemsAmount}_person${itemsAmount > 1 ? 's' : ''}.csv`
+    const csv = [
+      ['Name', 'Gender', 'Height', 'Weight', 'URL'].join(','),
+      ...Object.values(selectedItems).map((person) =>
+        [
+          person.name,
+          person.gender,
+          `${person.height} cm`,
+          `${person.mass} kg`,
+          person.url,
+        ].join(','),
+      ),
+    ].join('\n')
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+
+    saveAs(blob, fileName)
   }
 
   if (!itemsAmount) {
