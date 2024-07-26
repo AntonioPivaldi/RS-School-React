@@ -3,14 +3,15 @@ import FailedRequestMessage from '../FailedRequestMessage'
 import { PeopleResponse } from '../../utils/types/api'
 
 interface DetailsProps {
-  peopleRes: PeopleResponse | null
+  peopleRes: PeopleResponse | undefined
+  isFetching: boolean
 }
 
-export default function Details({ peopleRes }: DetailsProps) {
+export default function Details({ peopleRes, isFetching }: DetailsProps) {
   const person = peopleRes?.results[0]
   return (
     <>
-      {!peopleRes ? (
+      {isFetching ? (
         <div className="flex h-full items-center justify-center">
           <Spinner />
         </div>

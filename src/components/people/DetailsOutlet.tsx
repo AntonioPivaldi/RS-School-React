@@ -1,14 +1,15 @@
+import { BaseSyntheticEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import Button from '../ui/Button'
-import { BaseSyntheticEvent, useEffect, useState } from 'react'
-import getPerson from '../../api/getPerson'
-import { PeopleResponse } from '../../utils/types/api'
+import { peopleApi } from '../../api/peopleApi'
 import Details from './Details'
+import Button from '../ui/Button'
 
 export default function DetailsOutlet() {
   const navigate = useNavigate()
   const { name } = useParams()
-  const [peopleRes, setPeopleRes] = useState<PeopleResponse | null>(null)
+  const searchName = name?.split('_').join(' ') || ''
+  const { data: peopleRes, isFetching } =
+    peopleApi.useGetPersonByNameQuery(searchName)
 
   function goBack() {
     navigate(-1)
@@ -19,16 +20,6 @@ export default function DetailsOutlet() {
       goBack()
     }
   }
-
-  async function requestPerson() {
-    const searchName = name?.split('_').join(' ') || ''
-    const res = (await getPerson(searchName)) as PeopleResponse
-    setPeopleRes(res)
-  }
-
-  useEffect(() => {
-    requestPerson()
-  }, [])
 
   return (
     <section
@@ -43,7 +34,7 @@ export default function DetailsOutlet() {
             Close
           </Button>
         </div>
-        <Details peopleRes={peopleRes} />
+        <Details isFetching={isFetching} peopleRes={peopleRes} />
       </div>
     </section>
   )
