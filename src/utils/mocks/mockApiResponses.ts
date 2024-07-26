@@ -244,3 +244,11 @@ export const mockPeople: PeopleResponse = {
     },
   ],
 }
+
+export const mockEmptyPeople: PeopleResponse = {
+  count: 82,
+  next: 'https://swapi.dev/api/people/?search=&page=2',
+  previous: null,
+  isMock: true,
+  results: [],
+}
