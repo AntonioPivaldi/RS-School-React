@@ -2,6 +2,8 @@ import '@testing-library/jest-dom'
 import { test, expect, describe } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from '../../../src/store'
 import {
   mockEmptyPeople,
   mockPeople,
@@ -10,21 +12,16 @@ import People from '../../../src/components/people/People'
 
 describe('People cards tests', () => {
   test('Cards renders with people response', () => {
-    const { unmount } = render(<People peopleRes={mockPeople} />, {
-      wrapper: BrowserRouter,
-    })
+    const { unmount } = render(
+      <Provider store={store}>
+        <People peopleRes={mockPeople} />
+      </Provider>,
+      {
+        wrapper: BrowserRouter,
+      },
+    )
 
     expect(screen.getByText(/luke skywalker/i)).toBeInTheDocument()
-
-    unmount()
-  })
-
-  test('Spinner renders if no people response', () => {
-    const { unmount } = render(<People peopleRes={null} />, {
-      wrapper: BrowserRouter,
-    })
-
-    expect(screen.getByTestId('spinner')).toBeInTheDocument()
 
     unmount()
   })

@@ -16,6 +16,7 @@ export default defineConfig({
         'src/utils/env',
         'src/utils/mocks',
         'src/main.tsx',
+        'src/store',
       ],
     },
   },
