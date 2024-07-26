@@ -2,7 +2,7 @@ import { PeopleResponse } from '../../utils/types/api'
 import PersonCard from './PersonCard'
 
 interface PeopleProps {
-  peopleRes: PeopleResponse | undefined
+  peopleRes?: PeopleResponse
 }
 
 export default function People({ peopleRes }: PeopleProps) {

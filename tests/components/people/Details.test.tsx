@@ -18,7 +18,7 @@ describe('Details test', () => {
   })
 
   test('Spinner is shown till no details', () => {
-    const { unmount } = render(<Details isFetching peopleRes={undefined} />, {
+    const { unmount } = render(<Details isFetching />, {
       wrapper: BrowserRouter,
     })
     expect(screen.getByTestId('spinner')).toBeInTheDocument()

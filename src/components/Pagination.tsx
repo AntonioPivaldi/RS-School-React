@@ -4,7 +4,7 @@ import Button from './ui/Button'
 import { PeopleResponse } from '../utils/types/api'
 
 interface PaginationProps {
-  peopleRes: PeopleResponse | undefined
+  peopleRes?: PeopleResponse
   pageNumber: number
 }
 

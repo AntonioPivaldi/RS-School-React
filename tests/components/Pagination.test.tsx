@@ -27,7 +27,7 @@ describe('Pagination tests', () => {
   test('Pagination when no data', () => {
     const { unmount } = render(
       <Provider store={store}>
-        <Pagination peopleRes={null} pageNumber={1} />
+        <Pagination pageNumber={1} />
       </Provider>,
     )
 

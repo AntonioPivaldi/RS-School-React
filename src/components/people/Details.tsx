@@ -3,7 +3,7 @@ import FailedRequestMessage from '../FailedRequestMessage'
 import { PeopleResponse } from '../../utils/types/api'
 
 interface DetailsProps {
-  peopleRes: PeopleResponse | undefined
+  peopleRes?: PeopleResponse
   isFetching: boolean
 }
 
