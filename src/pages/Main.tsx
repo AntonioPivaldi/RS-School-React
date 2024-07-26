@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useSearchParams } from 'react-router-dom'
 import { RootState } from '../store'
+import { resetPage } from '../store/slices/currentPageSlice'
 import { peopleApi } from '../api/peopleApi'
 import ErrorButton from '../components/ErrorButton'
 import Search from '../components/Search'
@@ -14,9 +15,10 @@ import Spinner from '../components/ui/Spinner'
 import useSearchString from '../utils/hooks/useSearchString'
 
 export default function MainPage() {
+  const dispatch = useDispatch()
+  const pageNumber = useSelector((state: RootState) => state.page.value)
   const [, setSearchParams] = useSearchParams()
   const [searchString, setSearchString] = useSearchString()
-  const pageNumber = useSelector((state: RootState) => state.page.value)
   const { data: peopleRes, isFetching: arePeopleLoading } =
     peopleApi.useGetPeopleQuery(getNewParams().toString())
   const isInitialLoad = useRef(true)
@@ -28,21 +30,23 @@ export default function MainPage() {
     })
   }
 
-  async function search() {
+  function updateSearchParams() {
     const params = getNewParams()
     setSearchParams(params)
   }
 
   useEffect(() => {
-    if (!isInitialLoad.current) {
-      search()
+    if (pageNumber !== 1) {
+      dispatch(resetPage())
+    } else if (!isInitialLoad.current) {
+      updateSearchParams()
     } else {
       isInitialLoad.current = false
     }
   }, [searchString])
 
   useEffect(() => {
-    search()
+    updateSearchParams()
   }, [pageNumber])
 
   return (
