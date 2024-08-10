@@ -1,6 +1,6 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client'
-import './index.css'
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -8,16 +8,19 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom'
+import { store } from './store/index.ts'
+import ThemeProvider from './context/ThemeProvider.tsx'
 import MainPage from './pages/Main.tsx'
-import ErrorBoundary from './ErrorBoundary.tsx'
 import PageNotFound from './pages/404.tsx'
-import Details from './components/people/Details.tsx'
+import ErrorBoundary from './ErrorBoundary.tsx'
+import DetailsOutlet from './components/people/DetailsOutlet.tsx'
+import './index.css'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route errorElement={<ErrorBoundary />}>
       <Route path="/" element={<MainPage />}>
-        <Route path="details/:name" element={<Details />} />
+        <Route path="details/:name" element={<DetailsOutlet />} />
       </Route>
       <Route path="/page-not-found" element={<PageNotFound />} />
       <Route path="*" element={<Navigate to={'/page-not-found'} />} />
@@ -27,6 +30,10 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>,
 )

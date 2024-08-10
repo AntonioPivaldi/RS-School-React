@@ -1,26 +1,26 @@
-import { PeopleResponse } from '../utils/types/api'
+import { useDispatch } from 'react-redux'
+import { pageDecrement, pageIncrement } from '../store/slices/currentPageSlice'
 import Button from './ui/Button'
+import { PeopleResponse } from '../utils/types/api'
 
 interface PaginationProps {
-  peopleRes: PeopleResponse | null
+  peopleRes?: PeopleResponse
   pageNumber: number
-  setPageNumber: (val: number) => void
 }
 
-export default function Pagination({
-  peopleRes,
-  pageNumber,
-  setPageNumber,
-}: PaginationProps) {
+export default function Pagination({ peopleRes, pageNumber }: PaginationProps) {
+  const dispatch = useDispatch()
+  const peopleAmountPerPage = 11
+
   function prevPage() {
-    setPageNumber((pageNumber -= 1))
+    dispatch(pageDecrement())
   }
 
   function nextPage() {
-    setPageNumber((pageNumber += 1))
+    dispatch(pageIncrement())
   }
 
-  if (!peopleRes || peopleRes.count < 11) {
+  if (!peopleRes || peopleRes.count < peopleAmountPerPage) {
     return <></>
   }
 

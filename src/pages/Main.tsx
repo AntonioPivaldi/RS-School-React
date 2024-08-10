@@ -1,64 +1,83 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Outlet, useSearchParams } from 'react-router-dom'
+import { RootState } from '../store'
+import { resetPage } from '../store/slices/currentPageSlice'
+import { peopleApi } from '../api/peopleApi'
 import ErrorButton from '../components/ErrorButton'
 import Search from '../components/Search'
 import People from '../components/people/People'
-import getPeople from '../api/getPeople'
-import { PeopleResponse } from '../utils/types/api'
-import { Outlet, useSearchParams } from 'react-router-dom'
 import Pagination from '../components/Pagination'
+import FailedRequestMessage from '../components/FailedRequestMessage'
+import ThemeSwitch from '../components/ThemeSwitch'
+import ItemsControls from '../components/ItemsControls'
+import Spinner from '../components/ui/Spinner'
 import useSearchString from '../utils/hooks/useSearchString'
-import usePageNumber from '../utils/hooks/usePageNumber'
-import RequestFail from '../components/RequestFail'
 
 export default function MainPage() {
+  const dispatch = useDispatch()
+  const pageNumber = useSelector((state: RootState) => state.page.value)
   const [, setSearchParams] = useSearchParams()
-  const [peopleRes, setPeopleRes] = useState<PeopleResponse | null>(null)
   const [searchString, setSearchString] = useSearchString()
-  const [pageNumber, setPageNumber] = usePageNumber()
+  const { data: peopleRes, isFetching: arePeopleLoading } =
+    peopleApi.useGetPeopleQuery(getNewParams().toString())
   const isInitialLoad = useRef(true)
 
-  async function search() {
-    const params = new URLSearchParams({
+  function getNewParams() {
+    return new URLSearchParams({
       search: searchString,
       page: `${pageNumber}`,
     })
+  }
 
-    setPeopleRes(null)
+  function updateSearchParams() {
+    const params = getNewParams()
     setSearchParams(params)
-    const res = await getPeople(params.toString())
-    setPeopleRes(res)
   }
 
   useEffect(() => {
     if (pageNumber !== 1) {
-      setPageNumber(1)
+      dispatch(resetPage())
     } else if (!isInitialLoad.current) {
-      search()
+      updateSearchParams()
     } else {
       isInitialLoad.current = false
     }
   }, [searchString])
 
   useEffect(() => {
-    search()
+    updateSearchParams()
   }, [pageNumber])
 
   return (
     <div className="flex flex-col gap-6 px-6 py-4">
-      <section className="flex flex-col gap-6">
-        <Search searchString={searchString} setSearchString={setSearchString} />
+      <section className="flex flex-col justify-between gap-6 lg:flex-row">
+        <div className="flex flex-col gap-6">
+          <Search
+            searchString={searchString}
+            setSearchString={setSearchString}
+          />
+          <div className="flex gap-6">
+            <ThemeSwitch />
+            <ErrorButton />
+          </div>
+        </div>
         <div>
-          <ErrorButton />
+          <ItemsControls />
         </div>
       </section>
       <main className="flex flex-col items-center justify-center">
-        {peopleRes?.isMock && <RequestFail />}
-        <People peopleRes={peopleRes} />
-        <Pagination
-          pageNumber={pageNumber}
-          peopleRes={peopleRes}
-          setPageNumber={setPageNumber}
-        />
+        {peopleRes?.isMock && <FailedRequestMessage />}
+        {arePeopleLoading ? (
+          <div className="flex h-20 items-center">
+            <Spinner />
+          </div>
+        ) : (
+          <>
+            <People peopleRes={peopleRes} />
+            <Pagination pageNumber={pageNumber} peopleRes={peopleRes} />
+          </>
+        )}
       </main>
       <Outlet />
     </div>
