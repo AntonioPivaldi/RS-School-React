@@ -10,6 +10,7 @@ interface PaginationProps {
 
 export default function Pagination({ peopleRes, pageNumber }: PaginationProps) {
   const dispatch = useDispatch()
+  const peopleAmountPerPage = 11
 
   function prevPage() {
     dispatch(pageDecrement())
@@ -19,7 +20,7 @@ export default function Pagination({ peopleRes, pageNumber }: PaginationProps) {
     dispatch(pageIncrement())
   }
 
-  if (!peopleRes || peopleRes.count < 11) {
+  if (!peopleRes || peopleRes.count < peopleAmountPerPage) {
     return <></>
   }
 
